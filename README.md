@@ -2,3 +2,4 @@
 Speech to Text
 
 Karthik Nair
+Prithwish Pathak
