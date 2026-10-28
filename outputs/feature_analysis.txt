@@ -1,0 +1,18 @@
+=== FEATURE ANALYSIS ===
+Features (9): duration_s, snr_db_filled, n_pred_words, pred_chars, avg_pred_word_len, pred_speaking_rate, confidence, model_base.en, model_tiny.en
+
+Dropped for correlation > 0.9: ['n_pred_words', 'pred_chars', 'model_tiny.en']
+Kept (6): duration_s, snr_db_filled, avg_pred_word_len, pred_speaking_rate, confidence, model_base.en
+
+PCA: 5 components explain 95% of the variance (of 9).
+
+Random-forest importance:
+confidence            0.628
+n_pred_words          0.080
+pred_speaking_rate    0.079
+duration_s            0.075
+pred_chars            0.059
+avg_pred_word_len     0.047
+snr_db_filled         0.025
+model_tiny.en         0.004
+model_base.en         0.003

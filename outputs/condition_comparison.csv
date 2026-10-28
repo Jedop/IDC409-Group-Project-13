@@ -1,0 +1,5 @@
+condition,base.en,tiny.en,base.en_increase_vs_clean,tiny.en_increase_vs_clean
+clean,0.0515,0.0789,0.0,0.0
+noisy_10dB,0.1665,0.2381,0.115,0.1592
+noisy_5dB,0.2348,0.3508,0.1833,0.2719
+noisy_0dB,0.4202,0.6199,0.3687,0.5411

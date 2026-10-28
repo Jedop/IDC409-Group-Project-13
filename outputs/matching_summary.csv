@@ -1,0 +1,9 @@
+asr_model,condition,n_clips,exact_accuracy,fuzzy_accuracy,mean_similarity
+base.en,clean,60,0.6667,0.9833,0.9865
+base.en,noisy_10dB,60,0.35,0.8833,0.9364
+base.en,noisy_5dB,60,0.15,0.7,0.8946
+base.en,noisy_0dB,60,0.0333,0.3667,0.7973
+tiny.en,clean,60,0.5167,0.95,0.9741
+tiny.en,noisy_10dB,60,0.2667,0.7667,0.9063
+tiny.en,noisy_5dB,60,0.0833,0.5667,0.8443
+tiny.en,noisy_0dB,60,0.0333,0.1667,0.688

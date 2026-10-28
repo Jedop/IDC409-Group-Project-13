@@ -1,0 +1,51 @@
+=== EDA SUMMARY ===
+
+Clips per condition:
+condition
+clean         60
+noisy_0dB     60
+noisy_10dB    60
+noisy_5dB     60
+
+Clean-clip statistics:
+       duration_s  n_words  n_chars  words_per_sec
+count       60.00    60.00    60.00          60.00
+mean         5.21    15.62    81.00           2.96
+std          2.68     9.04    49.53           0.40
+min          1.56     4.00    17.00           2.11
+25%          3.45    10.00    49.00           2.68
+50%          4.42    12.00    66.00           3.01
+75%          6.30    18.00    91.50           3.27
+max         15.00    48.00   276.00           4.01
+
+Missing values in clips table:
+clip_id            0
+source_clip_id     0
+filename           0
+filepath           0
+condition          0
+snr_db            60
+duration_s         0
+sample_rate        0
+true_text          0
+
+Mean WER per model and condition:
+asr_model   base.en  tiny.en
+condition                   
+clean         0.052    0.079
+noisy_10dB    0.166    0.238
+noisy_5dB     0.235    0.351
+noisy_0dB     0.420    0.620
+
+Correlation of confidence with WER: -0.745
+
+Top 3 error examples:
+[tiny.en | noisy_10dB | WER 1.83]
+  true: ask karl yundt he growled savagely
+  pred: that's carl jung it's the ground it's out of the way
+[tiny.en | noisy_0dB | WER 1.43]
+  true: he could arrange that satisfactorily for carrie would be glad to wait if necessary
+  pred: you could arrange a child's bathroom or a train would be filed for a train or a train would be filed for a train
+[tiny.en | noisy_5dB | WER 1.25]
+  true: otto winked at me
+  pred: i don't think that's enough

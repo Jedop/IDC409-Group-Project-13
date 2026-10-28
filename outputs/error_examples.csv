@@ -1,0 +1,16 @@
+clip_id,asr_model,condition,wer,confidence,true_text,predicted_text
+777-126732-0072_snr10,tiny.en,noisy_10dB,1.8333333333333333,0.41575318416327,ask karl yundt he growled savagely,that's carl jung it's the ground it's out of the way
+2277-149896-0006_snr0,tiny.en,noisy_0dB,1.4285714285714286,0.3334328723650737,he could arrange that satisfactorily for carrie would be glad to wait if necessary,you could arrange a child's bathroom or a train would be filed for a train or a train would be filed for a train
+2035-147960-0015_snr5,tiny.en,noisy_5dB,1.25,0.5002819542997731,otto winked at me,i don't think that's enough
+2035-147960-0015_snr10,tiny.en,noisy_10dB,1.25,0.5771714274195711,otto winked at me,i don't think it means
+2035-147960-0015_snr5,base.en,noisy_5dB,1.25,0.6789359559532516,otto winked at me,i don't think it means
+2035-147960-0015_snr0,base.en,noisy_0dB,1.25,0.5787393268318654,otto winked at me,i don't think it means
+2035-147960-0015_snr10,base.en,noisy_10dB,1.25,0.6585875830531022,otto winked at me,i don't think it means
+2035-147960-0015_snr0,tiny.en,noisy_0dB,1.25,0.49837514012554396,otto winked at me,i don't think that's enough
+7976-110124-0000_snr0,tiny.en,noisy_0dB,1.2,0.37242856222327175,long ago there lived a merchant who had three daughters,it's long ago and it's been working so let's see what's doing on it
+777-126732-0072_snr5,base.en,noisy_5dB,1.1666666666666667,0.3259046341305219,ask karl yundt he growled savagely,as carl jung to the ground sadly
+777-126732-0072_snr10,base.en,noisy_10dB,1.1666666666666667,0.46582522682732674,ask karl yundt he growled savagely,us carl young to grow up sadly
+7976-110124-0004_snr0,tiny.en,noisy_0dB,1.1,0.38917233837432935,have pity upon a poor unfortunate one he called out,that was pretty upon a pore i'm fucking at one i'm going to come out
+2035-147960-0008_snr0,tiny.en,noisy_0dB,1.0555555555555556,0.3921096696357577,a faint fetid smell came from him and a thread of green liquid oozed from his crushed head,i think that is now a thing for me and i forgot a thing that makes me from this cross house
+777-126732-0072_snr5,tiny.en,noisy_5dB,1.0,0.3687821381135383,ask karl yundt he growled savagely,that's probably young
+777-126732-0072_snr0,tiny.en,noisy_0dB,1.0,0.3817848056943252,ask karl yundt he growled savagely,that's probably done

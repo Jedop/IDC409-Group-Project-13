@@ -33,7 +33,7 @@ NUM_SAMPLE_CLIPS = 5        # small sample committed to GitHub
 
 # ---- ASR -----------------------------------------------------------------
 ASR_MODELS = ["tiny.en", "base.en"]   # two pretrained systems to compare
-LOW_CONFIDENCE = 0.60                 # below this -> note "low confidence"
+LOW_CONFIDENCE = 0.50                 # below this -> note "low confidence"
 
 # ---- ML ------------------------------------------------------------------
 RANDOM_SEED = 42
