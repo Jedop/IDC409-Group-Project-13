@@ -7,3 +7,4 @@ soundfile>=0.12
 jiwer>=3.0
 faster-whisper>=1.0
 joblib>=1.3
+

@@ -7,5 +7,5 @@ venv/
 data/audio/
 data/*.db
 outputs/models/
-# keep the small sample folder and CSV outputs
+# keep the small sample folder and CSV output
 !data/sample_audio/
