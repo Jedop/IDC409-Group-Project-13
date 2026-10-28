@@ -11,10 +11,10 @@ systems** (Whisper `tiny.en` vs `base.en`).
 ## Main findings
 
 * `base.en` is more accurate than `tiny.en` in every condition: mean word error rate (WER) on clean audio is 5.2%
-  vs 7.9%, and at 0 dB noise it is 42.0% vs 61.2%.
+  vs 7.9%, and at 0 dB noise it is 42.0% vs 62.0%.
 * Noise hurts a lot. For `base.en`, WER goes from 5.2% (clean) to 42.0% (0 dB). Words are missed more often than they are
   invented: keyword recall falls faster than keyword precision.
-* The recogniser's own confidence score is the best predictor of WER (correlation -0.73). A logistic-regression model
+* The recogniser's own confidence score is the best predictor of WER (correlation -0.745). A logistic-regression model
   that predicts "hard clip" (WER above 15%) from confidence, noise and speaking-rate features reaches F1 = 0.89
   (majority baseline: 0.55).
 
@@ -95,7 +95,7 @@ python -m src.compare_conditions            # noise and ASR comparison
 python -m src.evaluate                      # final report
 ```
 
-Transcription took roughly 1 to 3 minutes per model on a laptop CPU (240 clips each). It saves progress in batches,
+Transcription of the 240 clips took about 1 min 20 s with `tiny.en` and 2 min 15 s with `base.en` on a laptop CPU. It saves progress in batches,
 so an interrupted run can be restarted and finished clips are skipped. Use `--limit 5` for a quick test.
 
 ## 4. Data
@@ -168,12 +168,14 @@ EDA outputs are in `outputs/eda_summary.txt`, `outputs/error_examples.csv` and `
   "twenty four", and "a while" where LibriSpeech has "awhile".
 * At 0 dB the worst clips are almost completely wrong, e.g. the true transcript "ask karl yundt he growled savagely"
   became "that's probably done it's done it's done it's done it it's done" (WER 2.50, more than 100% because of repeated insertions).
-* Confidence and WER are strongly negatively correlated (r = -0.73).
+* Confidence and WER are strongly negatively correlated (r = -0.745).
+
+![Confidence vs WER](outputs/plots/eda_confidence_vs_wer.png)
 
 ## 8. Text analysis (keyword detection and answer matching)
 
 **Keyword detection.** The 20 most common content words of the clean true transcripts (stop words and words shorter than
-4 letters removed) are the keywords: *time, came, antonia, like, poor, said, long, little, eyes, answer, rang, carrie,
+4 letters removed) are the keywords: *time, came, antonia, like, poor, said, long, little, eyes, rang, answer, carrie,
 loud, otto, seen, years, white, snake, good, slight*. The true transcript is the ground truth and the predicted transcript
 is the detection, giving precision, recall and F1.
 
@@ -195,12 +197,12 @@ is the detection, giving precision, recall and F1.
 | --- | --- | --- | --- | --- |
 | base.en | clean | 0.667 | 0.983 | 0.987 |
 | base.en | 10 dB | 0.350 | 0.883 | 0.936 |
-| base.en | 5 dB | 0.150 | 0.700 | 0.890 |
+| base.en | 5 dB | 0.150 | 0.700 | 0.895 |
 | base.en | 0 dB | 0.033 | 0.367 | 0.797 |
 | tiny.en | clean | 0.517 | 0.950 | 0.974 |
 | tiny.en | 10 dB | 0.267 | 0.767 | 0.906 |
-| tiny.en | 5 dB | 0.083 | 0.567 | 0.843 |
-| tiny.en | 0 dB | 0.033 | 0.167 | 0.692 |
+| tiny.en | 5 dB | 0.083 | 0.567 | 0.844 |
+| tiny.en | 0 dB | 0.033 | 0.167 | 0.688 |
 
 ## 9. Features and machine learning
 
@@ -217,11 +219,13 @@ is the detection, giving precision, recall and F1.
 
 * Correlation filter (|r| > 0.90) removed `n_pred_words`, `pred_chars` and `model_tiny.en`, leaving 6 features.
 * PCA: 5 components explain 95% of the variance of the 9 features.
-* Random-forest importance: `confidence` 0.587, `pred_speaking_rate` 0.137, `duration_s` 0.074, `n_pred_words` 0.074,
-  `pred_chars` 0.054, `avg_pred_word_len` 0.041, `snr_db_filled` 0.026. Confidence dominates, probably because it already
+* Random-forest importance: `confidence` 0.628, `n_pred_words` 0.080, `pred_speaking_rate` 0.079, `duration_s` 0.075,
+  `pred_chars` 0.059, `avg_pred_word_len` 0.047, `snr_db_filled` 0.025. Confidence dominates, probably because it already
   reflects how noisy the clip was.
 
 ![Feature importance](outputs/plots/features_importance.png)
+
+![Feature correlation](outputs/plots/features_correlation.png)
 
 **Models** (`src/train_model.py`): each model was trained on three feature sets (all features, correlation-reduced, PCA 95%).
 The 75% / 25% train/test split is grouped by the original clip, so the clean and noisy copies of one clip are never on both sides
@@ -236,29 +240,31 @@ The 75% / 25% train/test split is grouped by the original clip, so the clean and
 
 | model | feature set | MAE | RMSE | R2 |
 | --- | --- | --- | --- | --- |
-| decision tree | all | 0.115 | 0.180 | 0.526 |
-| random forest | all | 0.120 | 0.169 | 0.584 |
-| linear regression | reduced | 0.132 | 0.173 | 0.562 |
-| neural network | pca95 | 0.142 | 0.189 | 0.480 |
-| SVR | all | 0.143 | 0.193 | 0.454 |
-| mean baseline | - | 0.237 | 0.277 | -0.124 |
+| decision tree | all | 0.115 | 0.175 | 0.601 |
+| random forest | all | 0.126 | 0.178 | 0.585 |
+| linear regression | reduced (same for pca95) | 0.132 | 0.172 | 0.613 |
+| neural network | pca95 | 0.142 | 0.187 | 0.542 |
+| SVR | reduced (same for pca95) | 0.142 | 0.198 | 0.490 |
+| mean baseline | - | 0.239 | 0.289 | -0.093 |
 
 **Classification results (test set, best per model)**
 
 | model | feature set | accuracy | precision | recall | F1 |
 | --- | --- | --- | --- | --- | --- |
 | logistic regression | all (same for reduced, pca95) | 0.908 | 0.827 | 0.956 | 0.887 |
-| SVM | reduced (same for pca95) | 0.875 | 0.759 | 0.978 | 0.854 |
+| SVM | reduced (same for pca95) | 0.867 | 0.746 | 0.978 | 0.846 |
+| random forest | pca95 | 0.833 | 0.698 | 0.978 | 0.815 |
 | decision tree | reduced | 0.842 | 0.741 | 0.889 | 0.808 |
-| neural network | all | 0.833 | 0.705 | 0.956 | 0.811 |
-| random forest | pca95 | 0.817 | 0.677 | 0.978 | 0.800 |
+| neural network | all | 0.792 | 0.647 | 0.978 | 0.779 |
 | majority baseline | - | 0.375 | 0.375 | 1.000 | 0.545 |
 
-All models clearly beat the baselines. The decision tree has the lowest MAE, the random forest the highest R2.
+All models clearly beat the baselines. The decision tree has the lowest MAE and linear regression the highest R2 (0.613), so a simple linear model is almost as good as the more complex ones.
 Reducing the features from 9 to 6 changed the scores very little, so the removed features were redundant.
 PCA did not help (it hurt the tree-based models).
 
 ![Confusion matrix](outputs/plots/eval_confusion_matrix.png)
+
+![Predicted vs actual WER](outputs/plots/eval_pred_vs_actual.png)
 
 ## 10. Extension: clear vs noisy audio and two ASR systems
 
@@ -266,21 +272,21 @@ Mean per-clip WER (60 clips per cell):
 
 | ASR model | clean | 10 dB | 5 dB | 0 dB |
 | --- | --- | --- | --- | --- |
-| tiny.en | 0.079 | 0.238 | 0.376 | 0.612 |
-| base.en | 0.052 | 0.166 | 0.232 | 0.420 |
+| tiny.en | 0.079 | 0.238 | 0.351 | 0.620 |
+| base.en | 0.052 | 0.166 | 0.235 | 0.420 |
 
 Corpus WER (total errors / total words):
 
 | ASR model | clean | 10 dB | 5 dB | 0 dB |
 | --- | --- | --- | --- | --- |
-| tiny.en | 0.064 | 0.187 | 0.312 | 0.572 |
-| base.en | 0.046 | 0.130 | 0.194 | 0.398 |
+| tiny.en | 0.064 | 0.187 | 0.302 | 0.580 |
+| base.en | 0.046 | 0.130 | 0.195 | 0.398 |
 
 ![WER vs noise](outputs/plots/compare_wer_vs_noise.png)
 
-**Paired comparison of the two models** (240 clips): mean WER 0.218 for `base.en` vs 0.326 for `tiny.en`. `base.en` was better on
-136 clips, `tiny.en` on 20, and 84 were tied (Wilcoxon signed-rank test, p < 0.001). The larger model is more robust
-to noise: from clean to 0 dB its WER rises by 0.37, against 0.53 for `tiny.en`.
+**Paired comparison of the two models** (240 clips): mean WER 0.218 for `base.en` vs 0.322 for `tiny.en`. `base.en` was better on
+135 clips, `tiny.en` on 21, and 84 were tied (Wilcoxon signed-rank test, p < 0.001). The larger model is more robust
+to noise: from clean to 0 dB its WER rises by 0.37, against 0.54 for `tiny.en`.
 
 ## 11. Limitations
 
@@ -302,7 +308,7 @@ to noise: from clean to 0 dB its WER rises by 0.37, against 0.53 for `tiny.en`.
 ## 12. Team
 
 * Avneesh Singh MS23249
-* Prithwish Pathank MS23250
+* Prithwish Pathak MS23250
 * Karthik Nair MS23253
 
 ## Data source and credits
