@@ -78,6 +78,8 @@ Python 3.9 or newer is required. `faster-whisper` downloads the Whisper model fi
 internet connection is needed once (about 75 MB for `tiny.en`, 145 MB for `base.en`). A separate ffmpeg install is not needed.
 Everything runs on CPU.
 
+> [!NOTE] To run the live captions on your laptop, please use the live_captions.py file in the root directory. Additionally, it is built for linux only(Arch-based systems using KDE wayland). The on-screen subtitles might not work on other setups.
+
 ## 3. How to run
 
 Run the commands from the project root, in this order:
